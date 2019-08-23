@@ -124,7 +124,7 @@ func EditTag(c *gin.Context) {
 		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	}
-	if err_map != nil && len(err_map)>0 {
+	if err_map != nil && len(err_map) > 0 {
 		result["errors"] = err_map
 	}
 	c.JSON(http.StatusOK, result)
