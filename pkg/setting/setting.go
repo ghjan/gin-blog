@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"time"
 
@@ -12,11 +13,11 @@ var (
 
 	RunMode string
 
-	HTTPPort int
-	ReadTimeout time.Duration
+	HTTPPort     int
+	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 
-	PageSize int
+	PageSize  int
 	JwtSecret string
 )
 
@@ -34,6 +35,15 @@ func init() {
 
 func LoadBase() {
 	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
+	switch RunMode{
+	case "debug":
+		RunMode=gin.DebugMode
+	case "release":
+		RunMode=gin.ReleaseMode
+	default:
+		RunMode=gin.DebugMode
+	}
+
 }
 
 func LoadServer() {
@@ -42,11 +52,9 @@ func LoadServer() {
 		log.Fatal(2, "Fail to get section 'server': %v", err)
 	}
 
-	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
-
 	HTTPPort = sec.Key("HTTP_PORT").MustInt(8000)
 	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
-	WriteTimeout =  time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
+	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
 }
 
 func LoadApp() {

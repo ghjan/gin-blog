@@ -3,18 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/ghjan/gin-blog/pkg/setting"
+	"github.com/ghjan/gin-blog/routers"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	router := gin.Default()
-	router.GET("/test", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "test",
-		})
-	})
+	router := routers.InitRouter()
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
@@ -23,6 +17,5 @@ func main() {
 		WriteTimeout:   setting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-
 	s.ListenAndServe()
 }
