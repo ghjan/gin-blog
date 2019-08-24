@@ -4,11 +4,11 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/ghjan/gin-blog/models"
 	"github.com/ghjan/gin-blog/pkg/e"
+	"github.com/ghjan/gin-blog/pkg/logging"
 	"github.com/ghjan/gin-blog/pkg/setting"
 	"github.com/ghjan/gin-blog/util"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
-	"log"
 	"net/http"
 )
 
@@ -30,7 +30,7 @@ func GetArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
@@ -72,7 +72,7 @@ func GetArticles(c *gin.Context) {
 
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
@@ -122,7 +122,7 @@ func AddArticle(c *gin.Context) {
 	} else {
 		for _, err := range valid.Errors {
 			err_map[err.Key] = err.Message
-			log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 	result := gin.H{
@@ -193,7 +193,7 @@ func EditArticle(c *gin.Context) {
 	} else {
 		for _, err := range valid.Errors {
 			err_map[err.Key] = err.Message
-			log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
@@ -225,7 +225,7 @@ func DeleteArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
