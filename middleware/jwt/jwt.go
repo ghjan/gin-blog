@@ -16,6 +16,7 @@ func JWT() gin.HandlerFunc {
 
 		code = e.SUCCESS
 		token := c.Query("token")
+		// todo 从header里面获取token
 		if token == "" {
 			code = e.INVALID_PARAMS
 		} else {
