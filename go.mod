@@ -41,6 +41,6 @@ require (
 	github.com/wendal/errors v0.0.0-20181209125328-7f31f4b264ec // indirect
 	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586 // indirect
 	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7 // indirect
-	golang.org/x/tools v0.0.0-20190823093517-aa644d2adf2a // indirect
+	golang.org/x/tools v0.0.0-20190823170909-c4a336ef6a2f // indirect
 	gopkg.in/ini.v1 v1.46.0
 )
