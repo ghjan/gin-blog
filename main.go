@@ -3,8 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/ghjan/gin-blog/models"
+	"github.com/ghjan/gin-blog/pkg/gredis"
+	"github.com/ghjan/gin-blog/pkg/logging"
 	"github.com/ghjan/gin-blog/pkg/setting"
 	"github.com/ghjan/gin-blog/routers"
+	"github.com/ghjan/gin-blog/util"
+	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,19 +18,34 @@ import (
 	"time"
 )
 
-func main() {
-	router := routers.InitRouter()
+func init() {
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+	gredis.Setup()
+	util.Setup()
+}
 
-	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
-		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
-		MaxHeaderBytes: 1 << 20,
+func main() {
+	gin.SetMode(setting.ServerSetting.RunMode)
+	routersInit := routers.InitRouter()
+	readTimeout := setting.ServerSetting.ReadTimeout
+	writeTimeout := setting.ServerSetting.WriteTimeout
+	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+	maxHeaderBytes := 1 << 20
+
+	server := &http.Server{
+		Addr:           endPoint,
+		Handler:        routersInit,
+		ReadTimeout:    readTimeout,
+		WriteTimeout:   writeTimeout,
+		MaxHeaderBytes: maxHeaderBytes,
 	}
-	s.ListenAndServe()
+	log.Printf("[info] start http server listening %s", endPoint)
+
+	server.ListenAndServe()
 	// 设置优雅退出
-	gracefulExitWeb(s)
+	gracefulExitWeb(server)
 }
 
 func gracefulExitWeb(server *http.Server) {
