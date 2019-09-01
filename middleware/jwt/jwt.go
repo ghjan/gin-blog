@@ -2,7 +2,7 @@ package jwt
 
 import (
 	"github.com/ghjan/gin-blog/pkg/e"
-	"github.com/ghjan/gin-blog/util"
+	"github.com/ghjan/gin-blog/pkg/util"
 	"net/http"
 	"time"
 
